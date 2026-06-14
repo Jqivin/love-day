@@ -17,11 +17,11 @@
 
 ```bash
 # 在服务器上
-mkdir -p /opt/love-days
-cd /opt/love-days
+mkdir -p /opt/love-day
+cd /opt/love-day
 
 # 从本地上传（在本地执行）
-scp -r backend/* root@你的服务器IP:/opt/love-days/
+scp -r loveday-server root@你的服务器IP:/opt/love-day/
 ```
 
 ### 3. 安装 Node.js 和依赖
@@ -36,7 +36,7 @@ curl -fsSL https://rpm.nodesource.com/setup_18.x | sudo bash -
 sudo yum install -y nodejs
 
 # 安装依赖
-cd /opt/love-days
+cd /opt/love-day/loveday-server
 npm install
 
 # 初始化数据库
@@ -47,7 +47,7 @@ npm run init-db
 
 ```bash
 # 编辑配置文件
-vi /opt/love-days/config/index.js
+vi /opt/love-day/loveday-server/config/index.js
 ```
 
 修改以下内容：
@@ -67,7 +67,8 @@ templates: {
 
 ```bash
 npm install -g pm2
-pm2 start app.js --name love-days
+cd /opt/love-day/loveday-server
+pm2 start app.js --name love-day
 pm2 save
 pm2 startup    # 设置开机自启
 ```
@@ -81,7 +82,7 @@ pm2 startup    # 设置开机自启
 sudo apt-get install -y nginx
 
 # 创建配置
-sudo vi /etc/nginx/conf.d/love-days.conf
+sudo vi /etc/nginx/conf.d/love-day.conf
 ```
 
 Nginx 配置：
@@ -113,7 +114,7 @@ sudo certbot --nginx -d api.你的域名.com
 
 ### 1. 更新 API 地址
 
-修改 `miniprogram/app.js` 中的 `apiBaseUrl`：
+修改 `loveday-front/app.js` 中的 `apiBaseUrl`：
 ```js
 globalData: {
   apiBaseUrl: 'https://api.你的域名.com',  // 改为生产环境地址

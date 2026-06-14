@@ -13,14 +13,14 @@
 ## 项目结构
 
 ```
-├── miniprogram/           # 微信小程序前端
+├── loveday-front/         # 微信小程序前端
 │   ├── pages/
 │   │   ├── index/         # 首页（天数 + 问候）
 │   │   ├── settings/      # 设置页
 │   │   ├── anniversaries/ # 纪念日列表
 │   │   └── subscribe/     # 订阅消息授权
 │   └── utils/             # 工具函数
-├── backend/               # Node.js 后端服务
+├── loveday-server/        # Node.js 后端服务
 │   ├── routes/            # API 路由
 │   ├── models/            # 数据模型
 │   ├── services/          # 微信服务 + 定时调度
@@ -33,7 +33,7 @@
 ### 1. 启动后端服务
 
 ```bash
-cd backend
+cd loveday-server
 
 # 安装依赖
 npm install
@@ -50,7 +50,7 @@ npm start
 ### 2. 打开小程序
 
 1. 下载并安装 [微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)
-2. 用微信开发者工具打开 `miniprogram/` 目录
+2. 用微信开发者工具打开 `loveday-front/` 目录
 3. 选择「测试号」即可预览（无需 AppID）
 4. 将 `app.js` 中的 `apiBaseUrl` 改为你的后端地址
 
@@ -58,10 +58,10 @@ npm start
 
 1. 在 [微信公众平台](https://mp.weixin.qq.com/) 注册小程序，获取 AppID 和 AppSecret
 2. 在「订阅消息」中申请模板，获取模板 ID
-3. 修改 `backend/config/index.js` 中的微信配置：
+3. 修改 `loveday-server/config/index.js` 中的微信配置：
    - `wechat.appId` / `wechat.appSecret`
    - `templates.dailyGreeting` / `templates.anniversary`
-4. 修改 `miniprogram/pages/subscribe/subscribe.js` 中的 `templateIds`
+4. 修改 `loveday-front/pages/subscribe/subscribe.js` 中的 `templateIds`
 
 ## API 接口
 
@@ -95,6 +95,6 @@ npm start
 
 ## 调试技巧
 
-- 将 `backend/.env` 的 `PUSH_CRON` 设为 `* * * * *` 可每分钟触发推送（调试用）
+- 将 `loveday-server/.env` 的 `PUSH_CRON` 设为 `* * * * *` 可每分钟触发推送（调试用）
 - 小程序订阅页长按标题 3 次可开启调试工具
 - 后端 `POST /api/admin/push` 可手动触发一次推送任务

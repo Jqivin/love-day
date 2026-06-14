@@ -1,5 +1,5 @@
 {
-  "name": "love-days-backend",
+  "name": "love-day-server",
   "version": "1.0.0",
   "description": "恋爱纪念日小程序后端服务",
   "main": "app.js",
