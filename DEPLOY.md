@@ -47,15 +47,15 @@ npm run init-db
 
 ```bash
 # 编辑配置文件
-vi /opt/love-day/loveday-server/config/index.js
+vim /opt/love-day/loveday-server/config/index.js
 ```
 
 修改以下内容：
 ```js
 port: 3000,
 wechat: {
-  appId: 'wx244282d0a4f81078',   // 你的小程序AppID
-  appSecret: '你的AppSecret',      // 小程序AppSecret
+  appId: 'wxa3e250fc611b7766',   // 你的小程序AppID
+  appSecret: 'e2202d2e4ea9b1b5baeb9cae0a58ddf0',      // 小程序AppSecret
 },
 templates: {
   dailyGreeting: '实际的每日模板ID',
@@ -82,17 +82,17 @@ pm2 startup    # 设置开机自启
 sudo apt-get install -y nginx
 
 # 创建配置
-sudo vi /etc/nginx/conf.d/love-day.conf
+sudo vim /etc/nginx/conf.d/love-day.conf
 ```
 
 Nginx 配置：
 ```nginx
 server {
     listen 443 ssl;
-    server_name api.你的域名.com;
+    server_name www.jqivin.top;
 
-    ssl_certificate     /etc/ssl/你的证书.crt;
-    ssl_certificate_key /etc/ssl/你的证书.key;
+    ssl_certificate     /etc/letsencrypt/live/www.jqivin.top/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/www.jqivin.top/privkey.pem;
 
     location / {
         proxy_pass http://127.0.0.1:3000;
@@ -105,7 +105,7 @@ server {
 免费 HTTPS 证书（Let's Encrypt）：
 ```bash
 sudo apt-get install -y certbot python3-certbot-nginx
-sudo certbot --nginx -d api.你的域名.com
+sudo certbot --nginx -d www.jqivin.top
 ```
 
 ---
@@ -117,7 +117,7 @@ sudo certbot --nginx -d api.你的域名.com
 修改 `loveday-front/app.js` 中的 `apiBaseUrl`：
 ```js
 globalData: {
-  apiBaseUrl: 'https://api.你的域名.com',  // 改为生产环境地址
+  apiBaseUrl: 'https://www.jqivin.top',  // 改为生产环境地址
 }
 ```
 
@@ -127,7 +127,7 @@ globalData: {
 
 | 类型 | 域名 |
 |------|------|
-| request 合法域名 | `https://api.你的域名.com` |
+| request 合法域名 | `https://www.jqivin.top` |
 
 ### 3. 上传小程序
 

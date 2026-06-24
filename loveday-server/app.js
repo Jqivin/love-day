@@ -10,6 +10,8 @@ const { startScheduler, manualPush } = require('./services/scheduler');
 const userRoutes = require('./routes/user');
 const loveRoutes = require('./routes/love');
 const subscribeRoutes = require('./routes/subscribe');
+const dashboardRoutes = require('./routes/dashboard');
+const periodRoutes = require('./routes/period');
 
 const app = express();
 
@@ -21,6 +23,8 @@ app.use(express.json());
 app.use('/api/user', userRoutes);
 app.use('/api/love', loveRoutes);
 app.use('/api/subscribe', subscribeRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/period', periodRoutes);
 
 // 健康检查
 app.get('/api/health', (req, res) => {

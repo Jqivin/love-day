@@ -35,5 +35,8 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_subscribe_openid ON subscribe_logs(openid);
 `);
 
+const { migrate } = require('./migrate');
+migrate(db);
+
 console.log('数据库初始化完成:', dbPath);
 db.close();

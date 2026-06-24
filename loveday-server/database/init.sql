@@ -20,6 +20,18 @@ CREATE TABLE IF NOT EXISTS subscribe_logs (
     subscribed_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
+-- 经期设置表
+CREATE TABLE IF NOT EXISTS period_settings (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    openid VARCHAR(64) NOT NULL UNIQUE,
+    last_period_start DATE,
+    cycle_length INTEGER DEFAULT 28,
+    period_length INTEGER DEFAULT 5,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
 -- 索引
 CREATE INDEX IF NOT EXISTS idx_users_openid ON users(openid);
 CREATE INDEX IF NOT EXISTS idx_subscribe_openid ON subscribe_logs(openid);
+CREATE INDEX IF NOT EXISTS idx_period_openid ON period_settings(openid);
