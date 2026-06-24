@@ -68,4 +68,28 @@ async function sendSubscribeMessage(openid, templateId, data, page) {
   }
 }
 
-module.exports = { getAccessToken, sendSubscribeMessage };
+/**
+ * 通过 login code 换取 openid 和 session_key
+ * @param {string} code - 前端 wx.login() 获取的临时凭证
+ * @returns {{ openid: string, session_key: string }}
+ */
+async function code2Session(code) {
+  try {
+    const { appId, appSecret } = config.wechat;
+    const url = `https://api.weixin.qq.com/sns/jscode2session?appid=${appId}&secret=${appSecret}&js_code=${code}&grant_type=authorization_code`;
+    const res = await axios.get(url);
+
+    if (res.data.openid) {
+      console.log('code2Session 成功, openid:', res.data.openid.substring(0, 8) + '***');
+      return { openid: res.data.openid, session_key: res.data.session_key };
+    } else {
+      console.error('code2Session 失败:', res.data);
+      throw new Error(res.data.errmsg || '微信登录失败');
+    }
+  } catch (err) {
+    console.error('code2Session 异常:', err.message);
+    throw err;
+  }
+}
+
+module.exports = { getAccessToken, sendSubscribeMessage, code2Session };

@@ -4,24 +4,27 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const { code2Session } = require('../services/wechat');
 
 /**
  * POST /api/user/login
- * 微信登录，获取或创建用户记录
- * Body: { openid }
+ * 微信登录，code 换取 openid，获取或创建用户
+ * Body: { code }
  */
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
   try {
-    const { openid } = req.body;
-    if (!openid) {
-      return res.status(400).json({ code: 400, message: '缺少 openid' });
+    const { code } = req.body;
+    if (!code) {
+      return res.status(400).json({ code: 400, message: '缺少 code' });
     }
+
+    // 调用微信接口，code 换取 openid
+    const { openid } = await code2Session(code);
 
     let user = User.findByOpenid(openid);
     const isNew = !user;
 
     if (isNew) {
-      // 新用户，创建默认记录（需要后续设置恋爱日期）
       user = User.upsert(openid, {
         loveStartDate: new Date().toISOString().slice(0, 10),
         partner1Name: 'TA',
@@ -29,10 +32,10 @@ router.post('/login', (req, res) => {
       });
     }
 
-    res.json({ code: 0, data: { user, isNew } });
+    res.json({ code: 0, data: { user, isNew, openid } });
   } catch (err) {
     console.error('登录失败:', err);
-    res.status(500).json({ code: 500, message: '服务器错误' });
+    res.status(500).json({ code: 500, message: err.message || '服务器错误' });
   }
 });
 
