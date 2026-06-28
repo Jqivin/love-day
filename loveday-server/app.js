@@ -1,6 +1,7 @@
 /**
  * 恋爱纪念日小程序 - 后端服务入口
  */
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const config = require('./config');
